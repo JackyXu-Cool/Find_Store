@@ -1,11 +1,8 @@
 # Find_Store
 
-This is a REST API developed by Flask. All the data are stored with SQLAlchemy <br />
+This is a REST API developed with Flask. All data is stored with SQLAlchemy. It is now deployed on Heroku
 
-It allows authenticated users to get access to the "stores" and the items inside each stores.
-It includes many stores around Midtown Atlanta, GA, USA
+<br />
 
-## Installation
+It allows authenticated users to create store, put items on it, etc. Users can share his/her store with others and see others' stores.
 
-
-## JSON Format 
