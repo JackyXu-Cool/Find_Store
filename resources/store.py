@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.store import StoreModel
+from models.item import ItemModel
 
 class Store(Resource):
     def get(self, name):
@@ -22,10 +23,15 @@ class Store(Resource):
 
     def delete(self, name):
         store = StoreModel.find_by_name(name)
-        if store:
-            store.delete_from_db()
-        
-        return {"message": "store deleted"}
+        if not store:
+            return {"message": "store does not exist"}
+
+        items = list(filter(lambda x: x.store_id == store.id , ItemModel.query.all()))
+        if len(items) != 0:
+            return {"message": "Store cannot be deleted when there is still items in it"}
+
+        store.delete_from_db()
+        return {"message": "store deleted"} 
 
 
 class StoreList(Resource):
