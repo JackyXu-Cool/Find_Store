@@ -26,7 +26,7 @@ class Store(Resource):
         if not store:
             return {"message": "store does not exist"}
 
-        items = list(filter(lambda x: x.store_id == store.id , ItemModel.query.all()))
+        items = list(filter(lambda x: x.store_id == store.id , ItemModel.find_all()))
         if len(items) != 0:
             return {"message": "Store cannot be deleted when there is still items in it"}
 
@@ -36,5 +36,5 @@ class Store(Resource):
 
 class StoreList(Resource):
     def get(self):
-        return {"stores": [store.json() for store in StoreModel.query.all()]}
+        return {"stores": [store.json() for store in StoreModel.find_all()]}
     

@@ -15,6 +15,6 @@ It is now deployed on Heroku: https://find-stores-api.herokuapp.com/
 * /store/string:name
     * GET  get the store information with name=name
     * POST  post the store information to the database with name=name
-    * DELETE  delete the store with name=name (It cannoe be reached if there is still items in it)
+    * DELETE  delete the store with name=name (It cannot be reached if there is still items in it)
 * /string:name/items
     * GET  a list of items inside the store with name=name

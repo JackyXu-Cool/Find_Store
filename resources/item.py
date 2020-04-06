@@ -64,11 +64,10 @@ class Item(Resource):
 
 
 class ItemList(Resource):
-    def get(self, name):
-        store = StoreModel.find_by_name(name)
-        store_id = store.id
+    def get(self, store_name):
+        store = StoreModel.find_by_name(store_name)
 
-        items = filter(lambda x: x.store_id == store_id, ItemModel.query.all())
+        items = filter(lambda x: x.store_id == store.id, ItemModel.find_all())
 
         return {"items": [item.json() for item in items]}
 
