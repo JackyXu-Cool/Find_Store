@@ -5,17 +5,21 @@ class StoreModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
 
     items = db.relationship("ItemModel", lazy="dynamic")
+    user = db.relationship("UserModel")
 
-    def __init__(self, name):
+    def __init__(self, name, user_id):
         self.name = name
+        self.user_id = user_id
 
     def json(self):
         return {
             "id": self.id,
             "name": self.name, 
-            "items": [item.json() for item in self.items.all()]
+            "items": [item.json() for item in self.items.all()],
+            "owner": self.user.username
         }
 
     @classmethod

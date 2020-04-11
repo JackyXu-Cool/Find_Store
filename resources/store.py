@@ -1,19 +1,31 @@
 from flask_restful import Resource, reqparse
+from flask_jwt_extended import (
+    jwt_required,
+    get_jwt_identity
+)
 from models.store import StoreModel
 from models.item import ItemModel
+from models.user import UserModel
 
 class Store(Resource):
+    @jwt_required
     def get(self, name):
+        user = UserModel.find_by_id(get_jwt_identity())
         store = StoreModel.find_by_name(name)
         if store:
+            if store.user.id != user.id:
+                return {"message": "You are not allowed to access this store"}
             return store.json()
         else:
             return {"message": "store not found"}, 404
 
+    @jwt_required
     def post(self, name):
         if StoreModel.find_by_name(name):
             return {"message": "store has already exists"}, 400
-        store = StoreModel(name)
+
+        user = UserModel.find_by_id(get_jwt_identity())
+        store = StoreModel(name, user.id)
         try:
             store.save_to_db()
         except:
@@ -21,11 +33,16 @@ class Store(Resource):
         
         return store.json(), 201
 
+    @jwt_required
     def delete(self, name):
         store = StoreModel.find_by_name(name)
         if not store:
             return {"message": "store does not exist"}
 
+        user = UserModel.find_by_id(get_jwt_identity())
+        if store.user.id != user.id:
+            return {"message": "You are not allowed to delete this store"}
+        
         items = list(filter(lambda x: x.store_id == store.id , ItemModel.find_all()))
         if len(items) != 0:
             return {"message": "Store cannot be deleted when there is still items in it"}

@@ -8,6 +8,8 @@ class UserModel(db.Model):
     username = db.Column(db.String(80))
     password = db.Column(db.String(80))
 
+    stores = db.relationship("StoreModel", lazy="dynamic")
+
     def __init__(self, username, password):
         self.username = username
         self.password = password
@@ -15,7 +17,8 @@ class UserModel(db.Model):
     def json(self):
         return {
             "id": self.id,
-            "username": self.username
+            "username": self.username,
+            "stores": [store.name for store in self.stores.all()]
         }
 
     @classmethod

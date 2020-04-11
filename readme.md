@@ -1,6 +1,6 @@
 # Find_Store
 
-This is a REST API developed with Flask, Flask-RESTful, and Flask-SQLAlchemy.
+This is a REST API developed with Flask, Flask-RESTful, FLask-JWT-Extended and Flask-SQLAlchemy.
 <br />
 It is now deployed on Heroku: https://find-stores-api.herokuapp.com/
 
@@ -8,8 +8,10 @@ It is now deployed on Heroku: https://find-stores-api.herokuapp.com/
 ## Endpoints
 * /register
     * POST register a new users (username, password needed)
-* /auth
+* /login
     * POST authenticate the identiy of a user (username, password needed)
+* /logout
+    * POST log a user out
 * /stores   
     * GET  get a list of current existing stores
 * /store/string:name
