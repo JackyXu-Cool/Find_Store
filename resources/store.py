@@ -1,7 +1,8 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (
     jwt_required,
-    get_jwt_identity
+    get_jwt_identity,
+    jwt_optional
 )
 from models.store import StoreModel
 from models.item import ItemModel
@@ -10,11 +11,8 @@ from models.user import UserModel
 class Store(Resource):
     @jwt_required
     def get(self, name):
-        user = UserModel.find_by_id(get_jwt_identity())
         store = StoreModel.find_by_name(name)
         if store:
-            if store.user.id != user.id:
-                return {"message": "You are not allowed to access this store"}
             return store.json()
         else:
             return {"message": "store not found"}, 404
@@ -53,5 +51,5 @@ class Store(Resource):
 
 class StoreList(Resource):
     def get(self):
-        return {"stores": [store.json() for store in StoreModel.find_all()]}
+        return {"stores": [store.name for store in StoreModel.find_all()]}
     
