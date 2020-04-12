@@ -1,10 +1,8 @@
 from flask_restful import Resource, reqparse
 from flask_jwt_extended import (
     jwt_required,
-    get_jwt_claims, 
     jwt_optional, 
-    get_jwt_identity, 
-    fresh_jwt_required
+    get_jwt_identity
 )
 from models.item import ItemModel
 from models.store import StoreModel
@@ -35,15 +33,20 @@ class Item(Resource):
         else:
             return {"message": "'{}' does not exist".format(name)}, 404
 
-    @fresh_jwt_required
+    @jwt_required
     def post(self, name):
         if ItemModel.find_by_name(name):
             return {"message": "That item has already exists"}, 400
 
         data = Item.parser.parse_args()
-        item = ItemModel(name, data["price"], data["store_name"])
+
+        try:
+            item = ItemModel(name, data["price"], data["store_name"])
+        except:
+            return {"message": "Cannot create an item in a non-existent store"}
 
         user_id = get_jwt_identity()
+
         if user_id != StoreModel.find_by_id(item.store_id).user_id:
             return {"message": "You can only create new item in your own store"}
 
@@ -67,19 +70,23 @@ class Item(Resource):
 
         return {"message": "item not found"}
 
-    @fresh_jwt_required
+    @jwt_required
     def put(self, name):
         data = Item.parser.parse_args()
 
         item = ItemModel.find_by_name(name)
 
         if item is None:
-            item = ItemModel(name, data["price"], data["store_name"])
+            try:
+                item = ItemModel(name, data["price"], data["store_name"])
+            except:
+                return {"message": "Cannot create an item in a non-existent store"}
         else:
             item.price = data["price"]
             item.store_name = data["store_name"]
 
-        user_id = get_jwt_identity()
+        user_id = get_jwt_identity()      
+
         if user_id != StoreModel.find_by_id(item.store_id).user_id:
             return {"message": "You can only update item in your own store"}
 
