@@ -6,13 +6,17 @@ It is now deployed on Heroku: https://find-stores-api.herokuapp.com/
 
 ## Overview
 An unanthenticated user can do the following:
-1. Get all the store name.
-2. Get the names of every item in one store
+<ol>
+<li> Get all the store name.</li>
+<li> Get the names of every item in one store</li>
+</ol>
 <br />
 An anthenticated user can do the following:
-1. Create/delete/access one's own store
-2. Create/update/delete/access an item in one's own store
-3. Get the information of all items in one's own store
+<ol>
+<li> Create/delete/access one's own store </li>
+<li> Create/update/delete/access an item in one's own store </li>
+<li> Get the information of all items in one's own store </li>
+</ol>
 
 ## All Endpoints
 * /register
@@ -24,7 +28,7 @@ An anthenticated user can do the following:
 * /stores   
     * GET  get a list of current existing stores
 * /store/string:name
-    * GET  get the store information (@jwt_required)
+    * GET  get the store information
     * POST  create a new store  
     * DELETE  delete a store  
 * /string:name/items
