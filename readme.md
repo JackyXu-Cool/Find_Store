@@ -5,13 +5,13 @@ This is a REST API developed with Flask, Flask-RESTful, FLask-JWT-Extended and F
 It is now deployed on Heroku: https://find-stores-api.herokuapp.com/
 
 ## Overview
-An unanthenticated user can do the following:
+An **unanthenticated** user can do the following:
 <ol>
 <li> Get all the store name.</li>
 <li> Get the names of every item in one store</li>
 </ol>
-<br />
-An anthenticated user can do the following:
+
+An **authenticated** user can do the following:
 <ol>
 <li> Create/delete/access one's own store </li>
 <li> Create/update/delete/access an item in one's own store </li>
