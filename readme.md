@@ -10,8 +10,8 @@ An **unanthenticated** user can do the following:
 2. Get the names of every item in one store
 
 An **authenticated** user can do the following:
-1. Create/delete/access one's own store 
-2. Create/update/delete/access an item in one's own store 
+1. Create, delete, and access one's own store 
+2. Create, update, delete, and access an item in one's own store 
 3. Get the information of all items in one's own store 
 
 ## All Endpoints
